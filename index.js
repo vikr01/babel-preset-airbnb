@@ -23,7 +23,7 @@ module.exports = function buildAirbnbPreset(api, options) {
 
   return {
     presets: [
-      require('@babel/preset-env').default(api, {
+      [require('@babel/preset-env'), {
         debug: debug,
         exclude: [
           'transform-async-to-generator',
@@ -32,7 +32,7 @@ module.exports = function buildAirbnbPreset(api, options) {
         ],
         modules: false,
         targets: transpileTargets
-      }),
+      }],
       [require('@babel/preset-react'), { development: api.env('development') }]
     ],
     plugins: [
