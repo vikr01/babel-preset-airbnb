@@ -2,11 +2,6 @@
 
 var assign = require('object.assign');
 
-var modules = [require('@babel/plugin-transform-modules-commonjs'), {
-  strictMode: true, // add "use strict"
-  strict: false // this allows __esModule to be exported
-}];
-
 var defaultTargets = {
   android: 30,
   chrome: 35,
@@ -47,7 +42,7 @@ module.exports = function buildAirbnbPreset(api, options) {
         ignoreFilenames: ['node_modules']
       }, options.removePropTypes)] : null,
 
-      options && options.modules === false ? null : modules,
+      options && options.modules === false ? null : require('@babel/plugin-transform-modules-commonjs'),
       options && options.modules === false ? null : ['@babel/plugin-transform-strict-mode', { strictMode: true }],
       [require('@babel/plugin-transform-template-literals'), {
         spec: true
