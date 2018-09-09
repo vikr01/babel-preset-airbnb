@@ -2,7 +2,7 @@
 
 var assign = require('object.assign');
 
-var modules = [require('babel-plugin-transform-es2015-modules-commonjs'), {
+var modules = [require('@babel/plugin-transform-modules-commonjs'), {
   strictMode: true, // add "use strict"
   strict: false // this allows __esModule to be exported
 }];
@@ -21,24 +21,24 @@ function buildTargets(options) {
   return assign({}, defaultTargets, options.additionalTargets);
 }
 
-module.exports = function buildAirbnbPreset(context, options) {
+module.exports = function buildAirbnbPreset(api, options) {
   var transpileTargets = (options && options.targets) || buildTargets(options || {});
 
   var debug = (options && typeof options.debug === 'boolean') ? !!options.debug : false;
 
   return {
     presets: [
-      require('babel-preset-env').default(null, {
+      require('@babel/preset-env').default(api, {
         debug: debug,
         exclude: [
           'transform-async-to-generator',
-          'transform-es2015-template-literals',
+          'transform-template-literals',
           'transform-regenerator'
         ],
         modules: false,
         targets: transpileTargets
       }),
-      require('babel-preset-react')
+      require('@babel/preset-react')
     ],
     plugins: [
       options && !!options.removePropTypes ? ['babel-plugin-transform-react-remove-prop-types', assign({
@@ -48,15 +48,15 @@ module.exports = function buildAirbnbPreset(context, options) {
       }, options.removePropTypes)] : null,
 
       options && options.modules === false ? null : modules,
-      options && options.modules === false ? null : ['babel-plugin-transform-strict-mode', { strictMode: true }],
-      [require('babel-plugin-transform-es2015-template-literals'), {
+      options && options.modules === false ? null : ['@babel/plugin-transform-strict-mode', { strictMode: true }],
+      [require('@babel/plugin-transform-template-literals'), {
         spec: true
       }],
-      require('babel-plugin-transform-es5-property-mutators'),
-      require('babel-plugin-transform-es3-member-expression-literals'),
-      require('babel-plugin-transform-es3-property-literals'),
-      require('babel-plugin-transform-jscript'),
-      [require('babel-plugin-transform-object-rest-spread'), {
+      require('@babel/plugin-transform-property-mutators'),
+      require('@babel/plugin-transform-member-expression-literals'),
+      require('@babel/plugin-transform-property-literals'),
+      require('@babel/plugin-transform-jscript'),
+      [require('@babel/plugin-proposal-object-rest-spread'), {
         useBuiltIns: true
       }]
     ].filter(Boolean)
