@@ -31,7 +31,7 @@ module.exports = declare(function buildAirbnbPreset(api, options) {
           'transform-template-literals',
           'transform-regenerator'
         ],
-        modules: false,
+        modules: options.modules,
         targets: transpileTargets
       }],
       [require('@babel/preset-react'), { development: api.env('development') }]
@@ -43,7 +43,6 @@ module.exports = declare(function buildAirbnbPreset(api, options) {
         ignoreFilenames: ['node_modules']
       }, options.removePropTypes)] : null,
 
-      options && options.modules === false ? null : require('@babel/plugin-transform-modules-commonjs'),
       [require('@babel/plugin-transform-template-literals'), {
         spec: true
       }],
