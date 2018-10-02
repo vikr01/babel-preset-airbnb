@@ -22,6 +22,8 @@ module.exports = declare(function buildAirbnbPreset(api, options) {
 
   var debug = (options && typeof options.debug === 'boolean') ? !!options.debug : false;
 
+  api.assertVersion(7);
+
   return {
     presets: [
       [require('@babel/preset-env'), {
