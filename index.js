@@ -1,6 +1,7 @@
 'use strict';
 
 var assign = require('object.assign');
+var declare = require('@babel/helper-plugin-utils').declare;
 
 var defaultTargets = {
   android: 30,
@@ -16,7 +17,7 @@ function buildTargets(options) {
   return assign({}, defaultTargets, options.additionalTargets);
 }
 
-module.exports = function buildAirbnbPreset(api, options) {
+module.exports = declare(function buildAirbnbPreset(api, options) {
   var transpileTargets = (options && options.targets) || buildTargets(options || {});
 
   var debug = (options && typeof options.debug === 'boolean') ? !!options.debug : false;
@@ -55,4 +56,4 @@ module.exports = function buildAirbnbPreset(api, options) {
       }]
     ].filter(Boolean)
   };
-};
+});
